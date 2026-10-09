@@ -3,31 +3,42 @@
 /.pnp
 .pnp.js
 .yarn/install-state.gz
+
 # Testing
 /coverage
+
 # Next.js build output
 /.next/
 /out/
+
 # Production build
 /build
+
 # Debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+
 # Local environment files (DO NOT COMMIT SECRETS)
 .env
 .env*.local
-# Keep the example file for documentation
-!.env.example
+.env.example   # ignore example env file
+
 # Temporary and log files
 *.log
 /tmp/
+
 # Vercel
 .vercel
+
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
+
 # OS generated files
 .DS_Store
 Thumbs.db
+
+# Documentation
+README.md      # ignore readme file

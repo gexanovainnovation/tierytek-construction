@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
 import { getSettings } from "@/lib/settings";
+import { getSiteUrl } from "@/lib/site-url";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSettings();
+  const siteUrl = getSiteUrl();
   return {
     title: {
       default: settings.siteTitle || "Tierytek Construction | Steel Construction & Engineering",
@@ -13,11 +15,11 @@ export async function generateMetadata(): Promise<Metadata> {
     description:
       settings.siteDescription ||
       "Tierytek Construction specializes in industrial steel framework, commercial roofing solutions, and architectural renovation across Nigeria.",
-    metadataBase: new URL("https://tierytek.com"),
+    metadataBase: new URL(siteUrl),
     openGraph: {
       title: settings.siteTitle,
       description: settings.siteDescription,
-      url: "https://tierytek.com",
+      url: siteUrl,
       siteName: settings.companyName,
       type: "website",
     },

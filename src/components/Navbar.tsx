@@ -49,9 +49,7 @@ export function Navbar({ companyName, phone }: NavbarProps) {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 py-3.5">
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="flex h-10 w-10 items-center justify-center rounded bg-amber-600 font-extrabold text-white shadow-md shadow-amber-600/30 group-hover:bg-amber-500 transition-colors">
-            <span className="text-xl tracking-tighter">T</span>
-          </div>
+          <div className="h-10 w-10 shrink-0" aria-hidden="true" />
           <div className="flex flex-col">
             <span className="text-base sm:text-lg font-black tracking-tight text-white uppercase leading-tight group-hover:text-amber-400 transition-colors">
               {companyName || "Tierytek"}

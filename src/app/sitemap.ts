@@ -3,10 +3,11 @@ import { db } from "@/db";
 import { services, projects, insights } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { ensureAllTables } from "@/db/init";
+import { getSiteUrl } from "@/lib/site-url";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   await ensureAllTables();
-  const baseUrl = "https://tierytek.com";
+  const baseUrl = getSiteUrl();
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${baseUrl}`, lastModified: new Date(), changeFrequency: "weekly", priority: 1.0 },

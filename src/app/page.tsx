@@ -61,8 +61,12 @@ export default async function HomePage() {
       <Navbar companyName={settings.companyName || "Tierytek Construction"} phone={settings.phone || ""} />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden border-b border-slate-800 bg-slate-950 py-20 lg:py-32">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-600/10 via-slate-950 to-slate-950" />
+      <section
+        className="relative isolate overflow-hidden border-b border-slate-800 bg-slate-950 py-20 lg:py-32"
+        style={{ backgroundImage: "url('/images/home-hero.jpg')", backgroundSize: "cover", backgroundPosition: "center" }}
+      >
+        <div className="absolute inset-0 -z-10 bg-slate-950/65" />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-slate-950 via-slate-950/85 to-slate-950/30" />
         
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
           <div className="max-w-3xl">

@@ -20,7 +20,7 @@ export interface SiteSettings {
   socialFacebook?: string;
   socialTwitter?: string;
   socialInstagram?: string;
-  socialLinkedin?: string;
+  socialTiktok?: string;
   [key: string]: string | undefined;
 }
 
@@ -36,10 +36,10 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   businessHours: "Monday - Friday: 8:00 AM - 5:00 PM",
   footerText: "Precision engineering, structural capability, and durable construction solutions across Nigeria.",
   copyrightText: "Tierytek Construction. All rights reserved.",
-  socialFacebook: "https://facebook.com",
-  socialTwitter: "https://x.com",
-  socialInstagram: "https://instagram.com",
-  socialLinkedin: "https://linkedin.com",
+  socialFacebook: "",
+  socialTwitter: "",
+  socialInstagram: "",
+  socialTiktok: "",
 };
 
 /**

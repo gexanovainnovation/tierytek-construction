@@ -6,8 +6,8 @@ import { Lock, Mail, AlertCircle, Loader2 } from "lucide-react";
 
 export default function AdminLoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("admin@tierytek.com");
-  const [password, setPassword] = useState("AdminTierytek2025!");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -41,9 +41,7 @@ export default function AdminLoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-slate-950 p-4">
       <div className="w-full max-w-md rounded-2xl border border-slate-800 bg-slate-900 p-8 shadow-2xl">
         <div className="text-center mb-8">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-amber-600 font-extrabold text-white text-xl mb-3 shadow-lg shadow-amber-600/30">
-            T
-          </div>
+          <div className="mx-auto mb-3 h-12 w-12" aria-hidden="true" />
           <h1 className="text-2xl font-extrabold text-white uppercase tracking-tight">
             Tierytek Construction
           </h1>
@@ -110,9 +108,6 @@ export default function AdminLoginPage() {
           </button>
         </form>
 
-        <div className="mt-8 pt-4 border-t border-slate-800 text-center text-xs text-slate-500">
-          <p>Initial Credentials: <span className="font-mono text-slate-400">admin@tierytek.com</span> / <span className="font-mono text-slate-400">AdminTierytek2025!</span></p>
-        </div>
       </div>
     </div>
   );

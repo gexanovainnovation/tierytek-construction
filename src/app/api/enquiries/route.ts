@@ -5,6 +5,7 @@ import { desc } from "drizzle-orm";
 import { requireAdmin } from "@/lib/auth";
 import { generateId } from "@/lib/utils";
 import { ensureAllTables } from "@/db/init";
+import { sendBusinessNotification } from "@/lib/mail";
 
 export async function GET() {
   try {
@@ -54,6 +55,23 @@ export async function POST(request: NextRequest) {
       status: "new",
     });
 
+    await sendBusinessNotification(
+      "New Tierytek quote request",
+      [
+        `Enquiry ID: ${id}`,
+        `Name: ${name.trim()}`,
+        `Email: ${email.trim().toLowerCase()}`,
+        `Phone: ${phone?.trim() || "Not provided"}`,
+        `Company: ${company?.trim() || "Not provided"}`,
+        `Project type: ${projectType || "Not provided"}`,
+        `Location: ${location?.trim() || "Not provided"}`,
+        `Budget: ${budget?.trim() || "Not provided"}`,
+        "",
+        "Project details:",
+        message.trim(),
+      ].join("\n")
+    );
+
     return NextResponse.json({
       success: true,
       message: "Thank you for contacting Tierytek Construction. Your enquiry has been received and our engineering team will get in touch shortly.",
@@ -61,6 +79,10 @@ export async function POST(request: NextRequest) {
     });
   } catch (error: any) {
     console.error("Enquiry submission error:", error);
+    await sendBusinessNotification(
+      "Tierytek quote submission failed",
+      `A quote request could not be saved.\nTime: ${new Date().toISOString()}\nError: ${error.message || "Unknown server error"}`
+    );
     return NextResponse.json(
       { error: "Failed to submit enquiry. Please try again or call us directly." },
       { status: 500 }

@@ -15,6 +15,10 @@ export default function AdminSettingsPage() {
     businessHours: "",
     footerText: "",
     copyrightText: "",
+    socialTiktok: "",
+    socialInstagram: "",
+    socialTwitter: "",
+    socialFacebook: "",
   });
 
   const [saving, setSaving] = useState(false);
@@ -224,6 +228,29 @@ export default function AdminSettingsPage() {
               onChange={(e) => setSettings({ ...settings, copyrightText: e.target.value })}
               className="w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
             />
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {([
+              ["socialTiktok", "TikTok URL"],
+              ["socialInstagram", "Instagram URL"],
+              ["socialTwitter", "Twitter / X URL"],
+              ["socialFacebook", "Facebook URL"],
+            ] as const).map(([key, label]) => (
+              <div key={key}>
+                <label htmlFor={key} className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                  {label}
+                </label>
+                <input
+                  id={key}
+                  type="url"
+                  value={settings[key] || ""}
+                  onChange={(e) => setSettings({ ...settings, [key]: e.target.value })}
+                  placeholder="https://"
+                  className="w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
+                />
+              </div>
+            ))}
           </div>
         </div>
 

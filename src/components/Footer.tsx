@@ -8,6 +8,20 @@ interface FooterProps {
 
 export function Footer({ settings }: FooterProps) {
   const currentYear = new Date().getFullYear();
+  const socialLinks = [
+    { label: "TikTok", url: settings.socialTiktok },
+    { label: "Instagram", url: settings.socialInstagram },
+    { label: "Twitter / X", url: settings.socialTwitter },
+    { label: "Facebook", url: settings.socialFacebook },
+  ].filter(({ url }) => {
+    if (!url?.trim()) return false;
+    try {
+      const parsedUrl = new URL(url);
+      return parsedUrl.pathname !== "/" && parsedUrl.pathname !== "";
+    } catch {
+      return false;
+    }
+  });
 
   return (
     <footer className="border-t border-slate-800 bg-slate-950 text-slate-300">
@@ -41,9 +55,7 @@ export function Footer({ settings }: FooterProps) {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded bg-amber-600 font-extrabold text-white">
-                T
-              </div>
+              <div className="h-9 w-9 shrink-0" aria-hidden="true" />
               <div>
                 <span className="text-base font-bold text-white uppercase tracking-tight block">
                   {settings.companyName || "Tierytek Construction"}
@@ -57,6 +69,15 @@ export function Footer({ settings }: FooterProps) {
               {settings.footerText ||
                 "Specializing in steel frameworks, commercial roofing, and renovation projects across Nigeria. We bring precision, safety, and innovation to every site."}
             </p>
+            {socialLinks.length > 0 && (
+              <nav aria-label="Social media" className="flex flex-wrap gap-x-4 gap-y-2 text-xs">
+                {socialLinks.map(({ label, url }) => (
+                  <a key={label} href={url} target="_blank" rel="noreferrer" className="text-slate-400 hover:text-amber-400 transition-colors">
+                    {label}
+                  </a>
+                ))}
+              </nav>
+            )}
             <div className="pt-2">
               <Link
                 href="/admin/login"

@@ -4,6 +4,7 @@ import { users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { verifyPassword, createSession, destroySession } from "@/lib/auth";
 import { ensureAllTables } from "@/db/init";
+import { sendBusinessNotification } from "@/lib/mail";
 
 export async function POST(request: NextRequest) {
   try {
@@ -28,6 +29,10 @@ export async function POST(request: NextRequest) {
     }
 
     await createSession(user.id);
+    await sendBusinessNotification(
+      "Tierytek admin sign-in",
+      `An administrator signed in successfully.\nEmail: ${user.email}\nTime: ${new Date().toISOString()}`
+    );
 
     return NextResponse.json({
       success: true,

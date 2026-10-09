@@ -123,6 +123,21 @@ npm run dev
 ```
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+### Email Notifications
+Quote requests and successful admin sign-ins notify `info@tierytek.com`. Server-side quote submission failures also trigger a best-effort alert.
+
+1. Create a Resend account and verify the sending domain or address you want to use.
+2. Create a Resend API key.
+3. Add the following to `.env` locally and to your deployment environment variables:
+   ```env
+   RESEND_API_KEY=re_your_resend_api_key
+   MAIL_FROM=Tierytek Construction <notifications@tierytek.com>
+   ```
+   Replace the example sender with an address verified in Resend. Keep the API key private and do not commit `.env`.
+
+### Hero Image and Logo
+Place your hero image at `public/images/home-hero.jpg` (create the `images` folder if needed). The logo area is intentionally blank in the header, footer, and admin login so you can add your own logo later.
+
 ### Deploying to Vercel (Production):
 1. Push your repository to GitHub.
 2. Go to [Vercel](https://vercel.com) and click **Add New Project**.
@@ -134,6 +149,9 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
    - `R2_SECRET_ACCESS_KEY`
    - `R2_BUCKET_NAME`
    - `R2_PUBLIC_URL`
+   - `NEXT_PUBLIC_SITE_URL` (your canonical production URL, such as `https://tierytek.com`)
+   - `RESEND_API_KEY`
+   - `MAIL_FROM` (a sender verified in Resend)
 5. Click **Deploy**.
 
 ---
@@ -143,8 +161,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 To access the CMS management dashboard:
 
 - **Login URL:** `/admin/login`
-- **Initial Default Email:** `admin@tierytek.com`
-- **Initial Default Password:** `AdminTierytek2025!`
+Enter your administrator email and password manually on the login page. The login form does not display or prefill credentials.
 
 From the admin dashboard, you can:
 - **Review Quotation Enquiries:** Update pipeline status (`new`, `contacted`, `in_progress`, `quoted`, `won`, `closed`).
@@ -153,7 +170,7 @@ From the admin dashboard, you can:
 - **Manage Workmanship Gallery:** Add construction photographs with technical captions and alt text.
 - **Media Library:** Upload assets directly to Cloudflare R2 or local storage.
 - **News & Insights:** Publish company announcements and site updates.
-- **Website Settings:** Update business phone number, official address, email, and SEO metadata.
+- **Website Settings:** Update business phone number, official address, email, SEO metadata, and social media profile URLs.
 
 ---
 
