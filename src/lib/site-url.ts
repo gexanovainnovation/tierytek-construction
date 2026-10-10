@@ -1,4 +1,4 @@
-const DEFAULT_SITE_URL = "https://tierytek.com";
+const DEFAULT_SITE_URL = "https://tierytek.com.ng";
 
 export function getSiteUrl(): string {
   const configuredUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
