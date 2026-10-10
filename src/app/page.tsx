@@ -3,7 +3,9 @@ import { services, projects, gallery, insights } from "@/db/schema";
 import { getSettings } from "@/lib/settings";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { HomeHeroCarousel } from "@/components/HomeHeroCarousel";
 import { QuoteForm } from "@/components/QuoteForm";
+import Image from "next/image";
 import Link from "next/link";
 import { eq, desc, asc } from "drizzle-orm";
 import {
@@ -60,47 +62,7 @@ export default async function HomePage() {
     <div className="flex min-h-screen flex-col bg-slate-950 text-slate-100">
       <Navbar companyName={settings.companyName || "Tierytek Construction"} phone={settings.phone || ""} />
 
-      {/* Hero Section */}
-      <section
-        className="relative isolate overflow-hidden border-b border-slate-800 bg-slate-950 py-20 lg:py-32"
-        style={{ backgroundImage: "url('/images/home-hero.jpg')", backgroundSize: "cover", backgroundPosition: "center" }}
-      >
-        <div className="absolute inset-0 -z-10 bg-slate-950/65" />
-        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-slate-950 via-slate-950/85 to-slate-950/30" />
-        
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
-          <div className="max-w-3xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3.5 py-1.5 text-xs font-semibold text-amber-400">
-              <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
-              Structural Steel & Architectural Engineering Across Nigeria
-            </div>
-
-            <h1 className="mt-6 text-4xl font-extrabold tracking-tight sm:text-6xl text-white leading-[1.1]">
-              Industrial Steel Frameworks & Precision Construction.
-            </h1>
-
-            <p className="mt-6 text-base sm:text-lg leading-relaxed text-slate-300">
-              At Tierytek Construction, we specialize in high-strength steel frameworks, durable roofing solutions, and commercial renovation projects. We bring engineering rigor, structural safety, and innovation to every site.
-            </p>
-
-            <div className="mt-10 flex flex-wrap items-center gap-4">
-              <Link
-                href="/request-a-quote"
-                className="inline-flex items-center gap-2 rounded bg-amber-600 px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-lg shadow-amber-600/25 hover:bg-amber-500 transition-all hover:translate-y-[-1px]"
-              >
-                <span>Request a Quote</span>
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <Link
-                href="/services"
-                className="inline-flex items-center gap-2 rounded border border-slate-700 bg-slate-900/90 px-6 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-200 hover:bg-slate-800 hover:text-white transition-all"
-              >
-                <span>Explore Capabilities</span>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HomeHeroCarousel />
 
       {/* Editorial Overview Section */}
       <section className="py-20 border-b border-slate-800 bg-slate-900/40">
@@ -263,6 +225,18 @@ export default async function HomePage() {
                   className="group rounded-xl border border-slate-800 bg-slate-950 p-6 flex flex-col justify-between"
                 >
                   <div>
+                    {project.images?.[0]?.url && (
+                      <div className="relative mb-5 aspect-video overflow-hidden rounded-lg bg-slate-900">
+                        <Image
+                          src={project.images[0].url}
+                          alt={project.images[0].alt || project.title}
+                          fill
+                          unoptimized
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      </div>
+                    )}
                     <span className="text-[10px] font-bold uppercase tracking-widest text-amber-500">
                       {project.category || "Construction"}
                     </span>
@@ -338,7 +312,7 @@ export default async function HomePage() {
                       {item.title}
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-3 flex flex-col justify-end">
+                  <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-3 flex flex-col justify-end">
                     <p className="text-[11px] font-bold text-white truncate">{item.title}</p>
                     <p className="text-[9px] text-amber-400 uppercase">{item.category}</p>
                   </div>

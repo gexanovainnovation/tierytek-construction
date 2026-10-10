@@ -1,14 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Plus, Edit, Trash2, ArrowUpRight } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Plus, Edit, Trash2, ArrowUpRight, Upload, X } from "lucide-react";
 import Link from "next/link";
+
+type ProjectImage = { url: string; alt: string };
 
 export default function AdminProjectsPage() {
   const [projects, setProjects] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [editingProject, setEditingProject] = useState<any | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+  const [isUploadingImages, setIsUploadingImages] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+  const imageInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -22,6 +27,7 @@ export default function AdminProjectsPage() {
     challenge: "",
     solution: "",
     results: "",
+    images: [] as ProjectImage[],
     featured: false,
     published: true,
   });
@@ -42,22 +48,53 @@ export default function AdminProjectsPage() {
     fetchProjects();
   }, []);
 
+  const handleImageUpload = async (files: FileList | null) => {
+    if (!files?.length) return;
+
+    setIsUploadingImages(true);
+    setUploadError("");
+
+    try {
+      for (const file of Array.from(files)) {
+        const body = new FormData();
+        body.append("file", file);
+        body.append("altText", file.name.replace(/\.[^/.]+$/, ""));
+
+        const response = await fetch("/api/media", { method: "POST", body });
+        const result = await response.json();
+        if (!response.ok || !result.media?.url) {
+          throw new Error(result.error || `Failed to upload ${file.name}`);
+        }
+        const image = { url: result.media.url, alt: file.name.replace(/\.[^/.]+$/, "") };
+        setFormData((current) => ({ ...current, images: [...current.images, image] }));
+      }
+    } catch (error) {
+      setUploadError(error instanceof Error ? error.message : "Image upload failed.");
+    } finally {
+      setIsUploadingImages(false);
+      if (imageInputRef.current) imageInputRef.current.value = "";
+    }
+  };
+
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isUploadingImages) return;
     try {
+      let response: Response;
       if (editingProject) {
-        await fetch(`/api/projects/${editingProject.id}`, {
+        response = await fetch(`/api/projects/${editingProject.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
         });
       } else {
-        await fetch("/api/projects", {
+        response = await fetch("/api/projects", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
         });
       }
+      if (!response.ok) throw new Error("Failed to save project.");
       setIsCreating(false);
       setEditingProject(null);
       fetchProjects();
@@ -91,6 +128,7 @@ export default function AdminProjectsPage() {
       challenge: p.challenge || "",
       solution: p.solution || "",
       results: p.results || "",
+      images: Array.isArray(p.images) ? p.images : [],
       featured: p.featured || false,
       published: p.published,
     });
@@ -125,6 +163,7 @@ export default function AdminProjectsPage() {
               challenge: "",
               solution: "",
               results: "",
+              images: [],
               featured: false,
               published: true,
             });
@@ -226,6 +265,50 @@ export default function AdminProjectsPage() {
             </div>
 
             <div>
+              <div className="mb-2 flex items-center justify-between gap-3">
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-300">
+                  Project Photos
+                </label>
+                <button
+                  type="button"
+                  onClick={() => imageInputRef.current?.click()}
+                  disabled={isUploadingImages}
+                  className="inline-flex items-center gap-2 rounded border border-slate-700 bg-slate-950 px-3 py-2 text-xs font-bold text-slate-200 hover:border-amber-500 hover:text-white disabled:opacity-50"
+                >
+                  <Upload className="h-4 w-4" />
+                  {isUploadingImages ? "Uploading..." : "Choose Photos"}
+                </button>
+                <input
+                  ref={imageInputRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp,image/gif,image/svg+xml"
+                  multiple
+                  className="hidden"
+                  onChange={(event) => handleImageUpload(event.target.files)}
+                />
+              </div>
+              <p className="mb-3 text-[11px] text-slate-500">Upload one or more JPG, PNG, WebP, GIF, or SVG files (15 MB max each).</p>
+              {uploadError && <p role="alert" className="mb-3 text-xs text-rose-400">{uploadError}</p>}
+              {formData.images.length > 0 && (
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+                  {formData.images.map((image, index) => (
+                    <div key={`${image.url}-${index}`} className="group relative aspect-4/3 overflow-hidden rounded border border-slate-700 bg-slate-950">
+                      <img src={image.url} alt={image.alt} className="h-full w-full object-cover" />
+                      <button
+                        type="button"
+                        onClick={() => setFormData((current) => ({ ...current, images: current.images.filter((_, imageIndex) => imageIndex !== index) }))}
+                        aria-label={`Remove ${image.alt || `project photo ${index + 1}`}`}
+                        className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded bg-slate-950/85 text-white opacity-100 transition-opacity hover:bg-rose-600 sm:opacity-0 sm:group-hover:opacity-100"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <div>
               <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
                 Project Overview & Summary
               </label>
@@ -289,7 +372,8 @@ export default function AdminProjectsPage() {
             <div className="flex items-center gap-3 pt-2">
               <button
                 type="submit"
-                className="rounded bg-amber-600 px-5 py-2 text-xs font-bold uppercase tracking-wider text-white hover:bg-amber-500 transition-colors"
+                disabled={isUploadingImages}
+                className="rounded bg-amber-600 px-5 py-2 text-xs font-bold uppercase tracking-wider text-white hover:bg-amber-500 transition-colors disabled:cursor-not-allowed disabled:opacity-50"
               >
                 Save Project
               </button>

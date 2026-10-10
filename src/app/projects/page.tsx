@@ -3,6 +3,7 @@ import { projects } from "@/db/schema";
 import { getSettings } from "@/lib/settings";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import Image from "next/image";
 import Link from "next/link";
 import { eq, asc } from "drizzle-orm";
 import { Building2, MapPin, Calendar, ArrowRight } from "lucide-react";
@@ -80,6 +81,18 @@ export default async function ProjectsPage() {
                   className="group flex flex-col justify-between rounded-xl border border-slate-800 bg-slate-900/60 p-6 transition-all hover:border-slate-700 hover:bg-slate-900"
                 >
                   <div>
+                    {project.images?.[0]?.url && (
+                      <div className="relative mb-5 aspect-video overflow-hidden rounded-lg bg-slate-950">
+                        <Image
+                          src={project.images[0].url}
+                          alt={project.images[0].alt || project.title}
+                          fill
+                          unoptimized
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                          className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      </div>
+                    )}
                     <div className="flex items-center justify-between text-[11px] text-slate-400 mb-3">
                       <span className="font-semibold text-amber-500 uppercase tracking-widest">
                         {project.category || "Project"}

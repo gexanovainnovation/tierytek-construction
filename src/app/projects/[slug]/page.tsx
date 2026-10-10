@@ -3,6 +3,7 @@ import { projects } from "@/db/schema";
 import { getSettings } from "@/lib/settings";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { eq } from "drizzle-orm";
@@ -96,6 +97,23 @@ export default async function ProjectDetailPage({
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
             <div className="lg:col-span-8 space-y-10">
+              {project.images?.length > 0 && (
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2" aria-label="Project photos">
+                  {project.images.map((image, index) => (
+                    <div key={`${image.url}-${index}`} className="relative aspect-4/3 overflow-hidden rounded-lg border border-slate-800 bg-slate-900">
+                      <Image
+                        src={image.url}
+                        alt={image.alt || `${project.title} photo ${index + 1}`}
+                        fill
+                        unoptimized
+                        sizes="(max-width: 640px) 100vw, 50vw"
+                        className="object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+
               {/* Project Overview */}
               <div className="rounded-2xl border border-slate-800 bg-slate-900/40 p-8 space-y-4">
                 <h2 className="text-xl font-bold text-white tracking-tight">Project Overview</h2>

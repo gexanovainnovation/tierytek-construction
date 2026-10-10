@@ -203,9 +203,14 @@ export function Footer({ settings }: FooterProps) {
           <p>
             © {currentYear} {settings.companyName || "Tierytek Construction"}. {settings.copyrightText || "All rights reserved."}
           </p>
-          <p className="text-[11px] text-slate-600">
+          <a
+            href="https://www.gexanova.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[11px] text-slate-600 transition-colors hover:text-amber-400"
+          >
             Built by GEXANOVA Innovation Limited
-          </p>
+          </a>
         </div>
       </div>
     </footer>

@@ -41,7 +41,6 @@ export async function PUT(
       challenge: body.challenge,
       solution: body.solution,
       results: body.results,
-      images: Array.isArray(body.images) ? body.images : [],
       services: Array.isArray(body.services) ? body.services : [],
       featured: body.featured,
       published: body.published,
@@ -50,6 +49,10 @@ export async function PUT(
       orderIndex: Number(body.orderIndex) || 0,
       updatedAt: new Date(),
     };
+
+    if (Array.isArray(body.images)) {
+      updateData.images = body.images;
+    }
 
     if (body.slug) {
       updateData.slug = slugify(body.slug);

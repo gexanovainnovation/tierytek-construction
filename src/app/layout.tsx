@@ -16,6 +16,9 @@ export async function generateMetadata(): Promise<Metadata> {
       settings.siteDescription ||
       "Tierytek Construction specializes in industrial steel framework, commercial roofing solutions, and architectural renovation across Nigeria.",
     metadataBase: new URL(siteUrl),
+    icons: {
+      icon: settings.faviconUrl || "/images/Logo.jpg",
+    },
     openGraph: {
       title: settings.siteTitle,
       description: settings.siteDescription,
