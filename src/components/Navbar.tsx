@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Menu, X, Phone, ArrowRight } from "lucide-react";
@@ -49,7 +50,14 @@ export function Navbar({ companyName, phone }: NavbarProps) {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 py-3.5">
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="h-10 w-10 shrink-0" aria-hidden="true" />
+          <Image
+            src="/images/Logo.jpg"
+            alt={`${companyName || "Tierytek"} logo`}
+            unoptimized
+            width={40}
+            height={40}
+            className="h-10 w-10 shrink-0 object-contain"
+          />
           <div className="flex flex-col">
             <span className="text-base sm:text-lg font-black tracking-tight text-white uppercase leading-tight group-hover:text-amber-400 transition-colors">
               {companyName || "Tierytek"}

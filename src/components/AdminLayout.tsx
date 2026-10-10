@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import NextImage from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import {
@@ -71,9 +72,14 @@ export function AdminLayout({ children }: AdminLayoutProps) {
       <aside className="hidden md:flex w-64 flex-col border-r border-slate-800 bg-slate-900/90 shrink-0">
         <div className="flex h-16 items-center justify-between border-b border-slate-800 px-6">
           <Link href="/admin/dashboard" className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded bg-amber-600 font-extrabold text-white text-sm">
-              T
-            </div>
+            <NextImage
+              src="/images/Logo.jpg"
+              alt="Tierytek Construction logo"
+              unoptimized
+              width={32}
+              height={32}
+              className="h-8 w-8 shrink-0 rounded-sm object-contain"
+            />
             <div>
               <span className="text-sm font-black uppercase tracking-tight text-white block">
                 Tierytek
