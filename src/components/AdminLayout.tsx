@@ -73,7 +73,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         <div className="flex h-16 items-center justify-between border-b border-slate-800 px-6">
           <Link href="/admin/dashboard" className="flex items-center gap-2.5">
             <NextImage
-              src="/images/Logo.jpg"
+              src="/images/Logo-transparent.png"
               alt="Tierytek Construction logo"
               unoptimized
               width={32}

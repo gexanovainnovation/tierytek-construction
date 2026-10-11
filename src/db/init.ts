@@ -180,6 +180,33 @@ export async function ensureAllTables(): Promise<void> {
       `);
     }
 
+    const projectsCount = await db.execute(sql`SELECT count(*) FROM projects;`);
+    const pCount = Number((projectsCount as any)[0]?.count ?? (projectsCount.rows as any)?.[0]?.count ?? 0);
+    if (pCount === 0) {
+      await db.execute(sql`
+        INSERT INTO projects (id, title, slug, category, overview, scope, images, featured, published, order_index)
+        VALUES
+        ('project-showcase-steel-frame', 'Structural Steel Framing', 'structural-steel-framing-showcase', 'Steel Construction', 'A representative look at structural steel framing and on-site assembly. Replace this showcase with verified project details as they become available.', 'Steel framing, component alignment, and construction-site coordination.', '[{"url":"/images/hero1.png","alt":"Structural steel frame assembled on a construction site"}]'::jsonb, true, true, 1),
+        ('project-showcase-roofing', 'Roofing & Truss Systems', 'roofing-truss-systems-showcase', 'Roofing Solutions', 'Construction photography highlighting roof framing and weather-resistant building envelopes. Project-specific details can be updated by the team.', 'Roof structure preparation and roofing system installation.', '[{"url":"/images/home-hero.jpg","alt":"Roof structure and construction work"}]'::jsonb, true, true, 2),
+        ('project-showcase-site-assembly', 'On-Site Structural Assembly', 'on-site-structural-assembly-showcase', 'Structural Work', 'A representative view of steel components assembled on site. Replace the image and description with verified client project information when ready.', 'Structural component placement and site assembly.', '[{"url":"/images/hero2.png","alt":"Steel construction work in progress"}]'::jsonb, false, true, 3)
+        ON CONFLICT (slug) DO NOTHING;
+      `);
+    }
+
+    const galleryCount = await db.execute(sql`SELECT count(*) FROM gallery;`);
+    const gCount = Number((galleryCount as any)[0]?.count ?? (galleryCount.rows as any)?.[0]?.count ?? 0);
+    if (gCount === 0) {
+      await db.execute(sql`
+        INSERT INTO gallery (id, title, category, description, caption, alt_text, images, featured, order_index, published)
+        VALUES
+        ('gallery-showcase-steel-frame', 'Steel Frame Assembly', 'Steel Construction', 'Structural steelwork and assembly photography.', 'Structural steel framing', 'Steel frame assembly at a construction site', '[{"url":"/images/hero1.png","alt":"Steel frame assembly at a construction site"}]'::jsonb, true, 1, true),
+        ('gallery-showcase-roofing', 'Roofing Work', 'Roofing Solutions', 'Roof structure and construction photography.', 'Roof structure installation', 'Roof structure during construction', '[{"url":"/images/home-hero.jpg","alt":"Roof structure during construction"}]'::jsonb, true, 2, true),
+        ('gallery-showcase-steel-work', 'Structural Steelwork', 'Structural Work', 'Steel components arranged and assembled on site.', 'Steel construction in progress', 'Steel construction work in progress', '[{"url":"/images/hero2.png","alt":"Steel construction work in progress"}]'::jsonb, true, 3, true),
+        ('gallery-showcase-roof-detail', 'Roofing Detail', 'Roofing Solutions', 'A closer look at roofing construction and building details.', 'Roofing construction detail', 'Roofing and building construction detail', '[{"url":"/images/home-hero1.jpg","alt":"Roofing construction detail"}]'::jsonb, false, 4, true)
+        ON CONFLICT (id) DO NOTHING;
+      `);
+    }
+
     // Seed verified news articles from existing site
     const insightsCount = await db.execute(sql`SELECT count(*) FROM insights;`);
     const iCount = Number((insightsCount as any)[0]?.count ?? (insightsCount.rows as any)?.[0]?.count ?? 0);

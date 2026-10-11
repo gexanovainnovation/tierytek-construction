@@ -6,7 +6,7 @@ import { Footer } from "@/components/Footer";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { ArrowLeft, MapPin, Calendar, Building, CheckCircle2, ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import { ensureAllTables } from "@/db/init";
@@ -20,7 +20,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   await ensureAllTables();
-  const rows = await db.select().from(projects).where(eq(projects.slug, slug)).limit(1);
+  const rows = await db.select().from(projects).where(and(eq(projects.slug, slug), eq(projects.published, true))).limit(1);
   if (rows.length === 0) return { title: "Project Not Found" };
   const project = rows[0];
 
@@ -39,7 +39,7 @@ export default async function ProjectDetailPage({
   await ensureAllTables();
   const settings = await getSettings();
 
-  const rows = await db.select().from(projects).where(eq(projects.slug, slug)).limit(1);
+  const rows = await db.select().from(projects).where(and(eq(projects.slug, slug), eq(projects.published, true))).limit(1);
   if (rows.length === 0) {
     notFound();
   }

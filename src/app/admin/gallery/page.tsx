@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Plus, Trash2, Edit, Image as ImageIcon, CheckCircle, ExternalLink } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { Plus, Trash2, Edit, Image as ImageIcon, CheckCircle, ExternalLink, Upload } from "lucide-react";
 import Link from "next/link";
 
 export default function AdminGalleryPage() {
@@ -9,6 +9,9 @@ export default function AdminGalleryPage() {
   const [loading, setLoading] = useState(true);
   const [editingItem, setEditingItem] = useState<any | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [formError, setFormError] = useState("");
+  const imageInputRef = useRef<HTMLInputElement>(null);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -42,8 +45,33 @@ export default function AdminGalleryPage() {
     fetchGallery();
   }, []);
 
+  const handleImageUpload = async (file: File | null) => {
+    if (!file) return;
+    setIsUploadingImage(true);
+    setFormError("");
+
+    try {
+      const body = new FormData();
+      body.append("file", file);
+      body.append("altText", file.name.replace(/\.[^/.]+$/, ""));
+      const response = await fetch("/api/media", { method: "POST", body });
+      const result = await response.json();
+      if (!response.ok || !result.media?.url) {
+        throw new Error(result.error || "Image upload failed.");
+      }
+      setFormData((current) => ({ ...current, imageUrl: result.media.url }));
+    } catch (error) {
+      setFormError(error instanceof Error ? error.message : "Image upload failed.");
+    } finally {
+      setIsUploadingImage(false);
+      if (imageInputRef.current) imageInputRef.current.value = "";
+    }
+  };
+
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isUploadingImage) return;
+    setFormError("");
     try {
       const payload = {
         title: formData.title,
@@ -62,24 +90,26 @@ export default function AdminGalleryPage() {
       };
 
       if (editingItem) {
-        await fetch(`/api/gallery/${editingItem.id}`, {
+        const response = await fetch(`/api/gallery/${editingItem.id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
+        if (!response.ok) throw new Error("Gallery item could not be saved.");
       } else {
-        await fetch("/api/gallery", {
+        const response = await fetch("/api/gallery", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
+        if (!response.ok) throw new Error("Gallery item could not be saved.");
       }
 
       setIsCreating(false);
       setEditingItem(null);
       fetchGallery();
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      setFormError(error instanceof Error ? error.message : "Gallery item could not be saved.");
     }
   };
 
@@ -197,7 +227,7 @@ export default function AdminGalleryPage() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
-                  Image URL
+                  Image
                 </label>
                 <input
                   type="text"
@@ -206,6 +236,25 @@ export default function AdminGalleryPage() {
                   placeholder="https://... or /uploads/..."
                   className="w-full rounded border border-slate-700 bg-slate-950 px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-500"
                 />
+                <input
+                  ref={imageInputRef}
+                  type="file"
+                  accept="image/*"
+                  className="sr-only"
+                  onChange={(event) => handleImageUpload(event.target.files?.[0] || null)}
+                />
+                <button
+                  type="button"
+                  onClick={() => imageInputRef.current?.click()}
+                  disabled={isUploadingImage}
+                  className="mt-2 inline-flex items-center gap-2 text-xs font-semibold text-amber-400 hover:text-amber-300 disabled:opacity-60"
+                >
+                  <Upload className="h-3.5 w-3.5" />
+                  {isUploadingImage ? "Uploading image..." : "Upload or replace image"}
+                </button>
+                {formData.imageUrl && (
+                  <img src={formData.imageUrl} alt="Selected gallery image preview" className="mt-3 aspect-video w-full rounded border border-slate-800 object-cover" />
+                )}
               </div>
 
               <div>
@@ -263,6 +312,10 @@ export default function AdminGalleryPage() {
               </div>
             </div>
 
+            {formError && (
+              <p role="alert" className="text-xs font-medium text-rose-400">{formError}</p>
+            )}
+
             <div className="flex items-center gap-6">
               <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
                 <input
@@ -288,6 +341,7 @@ export default function AdminGalleryPage() {
             <div className="flex items-center gap-3 pt-2">
               <button
                 type="submit"
+                disabled={isUploadingImage}
                 className="rounded bg-amber-600 px-5 py-2 text-xs font-bold uppercase tracking-wider text-white hover:bg-amber-500 transition-colors"
               >
                 Save Gallery Item

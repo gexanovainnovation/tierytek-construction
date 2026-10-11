@@ -51,7 +51,7 @@ export function Navbar({ companyName, phone }: NavbarProps) {
         {/* Brand Logo */}
         <Link href="/" className="flex items-center gap-3 group">
           <Image
-            src="/images/Logo.jpg"
+            src="/images/Logo-transparent.png"
             alt={`${companyName || "Tierytek"} logo`}
             unoptimized
             width={40}
@@ -101,7 +101,7 @@ export function Navbar({ companyName, phone }: NavbarProps) {
           )}
           <Link
             href="/request-a-quote"
-            className="inline-flex items-center gap-1.5 rounded bg-amber-600 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white shadow-md shadow-amber-600/20 hover:bg-amber-500 transition-all hover:translate-y-[-1px]"
+            className="inline-flex items-center gap-1.5 rounded bg-amber-600 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white shadow-md shadow-amber-600/20 hover:bg-amber-500 transition-all hover:-translate-y-px"
           >
             <span>Request Quote</span>
             <ArrowRight className="h-3 w-3" />

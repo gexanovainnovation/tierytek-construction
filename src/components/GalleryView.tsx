@@ -50,24 +50,24 @@ export function GalleryView({ items }: GalleryViewProps) {
           </p>
         </div>
       ) : (
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {filteredItems.map((item) => {
             const firstImage = item.images?.[0];
             return (
               <div
                 key={item.id}
                 onClick={() => setActiveItem(item)}
-                className="group relative cursor-pointer break-inside-avoid overflow-hidden rounded-xl border border-slate-800 bg-slate-900 transition-all hover:border-amber-500/50 hover:shadow-xl hover:shadow-black/50"
+                className="group relative cursor-pointer overflow-hidden rounded-lg border border-slate-800 bg-slate-900 transition-all hover:border-amber-500/50 hover:shadow-xl hover:shadow-black/30"
               >
                 {firstImage?.url ? (
-                  <div className="relative overflow-hidden bg-slate-950">
+                  <div className="relative aspect-4/3 overflow-hidden bg-slate-950">
                     <img
                       src={firstImage.url}
                       alt={item.altText || item.title}
                       loading="lazy"
-                      className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-5 flex flex-col justify-end">
+                    <div className="absolute inset-0 bg-linear-to-t from-slate-950/90 via-slate-950/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-5 flex flex-col justify-end">
                       <span className="text-[10px] font-bold uppercase tracking-widest text-amber-400">
                         {item.category || "General"}
                       </span>

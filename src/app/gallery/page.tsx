@@ -35,13 +35,13 @@ export default async function GalleryPage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <div className="max-w-3xl">
             <span className="text-xs font-bold uppercase tracking-widest text-amber-500">
-              Workmanship Board
+              Project Gallery
             </span>
             <h1 className="mt-4 text-4xl sm:text-5xl font-extrabold tracking-tight text-white leading-tight">
-              Site Workmanship & Structural Photography
+              Construction In Focus
             </h1>
             <p className="mt-4 text-base sm:text-lg text-slate-300 leading-relaxed">
-              A curated photographic record of verified structural steel frameworks, roofing systems, industrial installations, and site finishing executed by Tierytek Construction.
+              Explore construction imagery across structural steel, roofing systems, and on-site assembly.
             </p>
           </div>
         </div>
