@@ -61,7 +61,7 @@ export default async function ProjectsPage() {
                 Project Showcases Under Compilation
               </h2>
               <p className="text-xs leading-relaxed text-slate-400">
-                Verified client case studies, structural scope summaries, and site photographic documentation are currently being finalized and will be published directly through the CMS.
+                Our project portfolio is being updated. Get in touch with our team to discuss our construction experience.
               </p>
               <div className="pt-4">
                 <Link

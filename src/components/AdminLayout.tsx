@@ -85,7 +85,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
                 Tierytek
               </span>
               <span className="text-[9px] uppercase tracking-widest text-amber-500 font-semibold block leading-none">
-                Admin CMS
+                Site Administration
               </span>
             </div>
           </Link>
@@ -145,7 +145,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
               {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
             <span className="text-xs uppercase tracking-widest text-slate-400 font-bold">
-              Engineering CMS Portal
+              Site Administration
             </span>
           </div>
 

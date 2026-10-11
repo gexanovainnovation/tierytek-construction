@@ -46,7 +46,7 @@ export function GalleryView({ items }: GalleryViewProps) {
           <Layers className="mx-auto h-10 w-10 text-slate-600 mb-2" />
           <h3 className="text-lg font-bold text-white">No gallery items published yet</h3>
           <p className="text-xs text-slate-400">
-            Photographs of completed steel structures, roofing systems, and renovation work can be added dynamically through the CMS.
+            Photographs of our construction and engineering work will appear here soon.
           </p>
         </div>
       ) : (

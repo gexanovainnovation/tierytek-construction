@@ -55,7 +55,7 @@ export default async function InsightsPage() {
             <div className="rounded-2xl border border-dashed border-slate-800 bg-slate-900/30 p-16 text-center max-w-xl mx-auto space-y-3">
               <h3 className="text-lg font-bold text-white">No articles published yet</h3>
               <p className="text-xs text-slate-400">
-                Company announcements and engineering insights will appear here once published from the CMS.
+                Company announcements and engineering insights will appear here soon.
               </p>
             </div>
           ) : (

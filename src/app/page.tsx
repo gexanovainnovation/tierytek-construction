@@ -214,7 +214,7 @@ export default async function HomePage() {
                 Project Showcases Under Assembly
               </h3>
               <p className="mt-2 text-xs text-slate-400 max-w-md mx-auto">
-                Real project case studies and engineering milestones are being documented and will be published via the CMS.
+                Our project portfolio is being updated. Contact our team to learn more about recent work.
               </p>
             </div>
           ) : (
@@ -291,7 +291,7 @@ export default async function HomePage() {
                 Workmanship Gallery
               </h3>
               <p className="mt-2 text-xs text-slate-400 max-w-md mx-auto">
-                Verified high-resolution photographs of steel framing, roof installations, and structural site works can be uploaded directly via the Media CMS.
+                Explore photographs of steel framing, roof installations, and structural site work.
               </p>
             </div>
           ) : (

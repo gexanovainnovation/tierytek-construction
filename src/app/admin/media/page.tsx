@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Upload, Trash2, Copy, Check, FolderOpen, Cloud, HardDrive, AlertCircle } from "lucide-react";
+import { Upload, Trash2, Copy, Check, FolderOpen, Cloud, HardDrive } from "lucide-react";
 
 export default function AdminMediaPage() {
   const [mediaItems, setMediaItems] = useState<any[]>([]);
@@ -87,20 +87,20 @@ export default function AdminMediaPage() {
           </p>
         </div>
 
-        {/* Cloudflare R2 Status indicator */}
+        {/* Storage status */}
         <div className="flex items-center gap-2 rounded-lg border border-slate-800 bg-slate-900/80 px-3 py-1.5 text-xs">
           {storageType === "cloudflare-r2" ? (
             <>
               <Cloud className="h-4 w-4 text-emerald-400" />
               <span className="text-emerald-400 font-bold uppercase tracking-wider">
-                Cloudflare R2 Active
+                Remote Storage Active
               </span>
             </>
           ) : (
             <>
               <HardDrive className="h-4 w-4 text-amber-500" />
               <span className="text-slate-300 font-medium">
-                Local Disk (R2 ready)
+                Local Storage Active
               </span>
             </>
           )}

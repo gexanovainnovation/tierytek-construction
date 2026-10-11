@@ -162,7 +162,7 @@ export default async function AdminDashboardPage() {
             className="inline-flex items-center gap-2 rounded-lg border border-slate-700 bg-slate-800 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-slate-200 hover:bg-slate-700 transition-colors"
           >
             <FolderOpen className="h-4 w-4" />
-            <span>Upload R2 / Media</span>
+            <span>Upload Media</span>
           </Link>
         </div>
       </div>

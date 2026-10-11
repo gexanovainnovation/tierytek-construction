@@ -118,7 +118,7 @@ export default function AdminGalleryPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl font-black text-white uppercase tracking-tight">
-            Workmanship Gallery CMS
+            Workmanship Gallery
           </h1>
           <p className="text-xs uppercase tracking-widest text-slate-400 mt-1">
             Visual showcase of verified structural steel and construction workmanship
@@ -197,7 +197,7 @@ export default function AdminGalleryPage() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">
-                  Image URL (from R2 or Media Library)
+                  Image URL
                 </label>
                 <input
                   type="text"

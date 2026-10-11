@@ -46,7 +46,7 @@ export default function AdminLoginPage() {
             Tierytek Construction
           </h1>
           <p className="text-xs uppercase tracking-widest text-amber-500 font-bold mt-1">
-            Administrative CMS Portal
+            Administration
           </p>
         </div>
 
@@ -103,7 +103,7 @@ export default function AdminLoginPage() {
                 <span>Signing in...</span>
               </>
             ) : (
-              <span>Enter CMS Dashboard</span>
+              <span>Sign In</span>
             )}
           </button>
         </form>
